@@ -6,5 +6,5 @@
   - [ ] Autenticação com Discord
 
 ## Updates no Formulário
-  - [OK] Usar o select no CreateAdModal
+  - [X] Usar o select no CreateAdModal
   - [ ] Validação dos campos - React Hook Forms(Schema validation)

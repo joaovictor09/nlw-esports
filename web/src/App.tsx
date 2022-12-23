@@ -1,5 +1,5 @@
-import { GameController, MagnifyingGlassPlus } from "phosphor-react"
 import { useEffect, useState } from "react";
+import axios from "axios";
 import * as Dialog from "@radix-ui/react-dialog"
 
 import logoImg from "./assets/logo-nlw-esports.svg";
@@ -8,7 +8,6 @@ import { CreateAdBanner } from "./components/CreateAdBanner";
 import { CreateAdModal } from "./components/CreateAdModal";
 
 import "./styles/main.css";
-import axios from "axios";
 
 export interface Game {
   id: string;
@@ -40,12 +39,14 @@ function App() {
       <div className="grid grid-cols-6 gap-6 mt-16">
         {games.map(game => {
           return (
-            <GameBanner 
-              key={game.id}
-              adsCount={game._count.ads} 
-              bannerUrl={game.bannerUrl} 
-              title={game.title}
-            />
+            <div>
+              <GameBanner 
+                key={game.id}
+                adsCount={game._count.ads} 
+                bannerUrl={game.bannerUrl} 
+                title={game.title}
+              />
+            </div>
           )
         })}
             

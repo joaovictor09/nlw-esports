@@ -1,8 +1,9 @@
 import * as Dialog from "@radix-ui/react-dialog"
 import * as Checkbox from "@radix-ui/react-checkbox"
 import * as ToggleGroup from "@radix-ui/react-toggle-group"
+import * as Select from "@radix-ui/react-select"
 
-import { Check, GameController } from "phosphor-react"
+import { CaretDown, CaretUp, Check, GameController } from "phosphor-react"
 import { useEffect, useState, FormEvent } from "react";
 
 import { Input } from "../components/Form/Input"
@@ -11,9 +12,11 @@ import axios from "axios";
 
 export function CreateAdModal(){
 
+  
   const [games, setGames] = useState<Game[]>([]);
   const [weekDays, setWeekDays] = useState<string[]>([])
   const [useVoiceChannel, setUseVoiceChannel] = useState(false)
+  const [selectedGame, setSelectedGame] = useState("")
 
   useEffect(() => {
     axios("http://localhost:3333/games").then(response => {
@@ -28,14 +31,14 @@ export function CreateAdModal(){
     const data = Object.fromEntries(formData)
 
     try {
-      await axios.post(`http://localhost:3333/games/${data.game}/ads`, {
-        "name": data.name,
-        "yearsPlaying": Number(data.yearsPlaying),
-        "discord": data.discord,
-        "weekDays": weekDays.map(Number),
-        "hourStart": data.hourStart,
-        "hourEnd": data.hourEnd,
-        "useVoiceChannel": useVoiceChannel
+      await axios.post(`http://localhost:3333/games/${selectedGame}/ads`, {
+        name: data.name,
+        yearsPlaying: Number(data.yearsPlaying),
+        discord: data.discord,
+        weekDays: weekDays.map(Number),
+        hourStart: data.hourStart,
+        hourEnd: data.hourEnd,
+        useVoiceChannel: useVoiceChannel
       })
 
       alert("Anúncio criado com sucesso!")
@@ -44,6 +47,7 @@ export function CreateAdModal(){
       alert("Erro ao criar o anúncio")
     }
   }
+  
 
   return(
     <Dialog.Portal>
@@ -55,18 +59,44 @@ export function CreateAdModal(){
                 <form onSubmit={handleCreatAd} className="mt-8 flex flex-col gap-4">
                   <div className="flex flex-col gap-2">
                     <label htmlFor="game" className="font-semibold">Qual o game?</label>
-                    <select 
-                      name="game"
-                      className="bg-zinc-900 py-3 px-4 rounded text-sm placeholder:text-zinc-500 appearance-none"
-                      id='game'
-                      placeholder="Selecione o game que deseja jogar"
-                      defaultValue=""
-                    >
-                      <option disabled value="0">Selecione um game</option>
-                      { games.map(game => {
-                        return <option key={game.id} value={game.id}>{game.title}</option>
-                      })}
-                    </select>
+                    <Select.Root onValueChange={setSelectedGame}>
+                      <Select.Trigger className={`flex items-center justify-between bg-zinc-900 py-3 px-4 rounded text-sm ${selectedGame == "" ? 'text-zinc-500' : 'text-white'}`}>
+                        <Select.Value placeholder="Selecione um game…"></Select.Value>
+                        <Select.Icon>
+                          <CaretDown className="w-6 h-6 text-zinc-400"/>
+                        </Select.Icon>
+                      </Select.Trigger>
+
+                      <Select.Portal className="w-full">
+                        <Select.Content className="overflow-hidden bg-zinc-900 rounded-md">
+                          <Select.ScrollUpButton className="flex items-center justify-center text-white">
+                            <CaretUp />
+                          </Select.ScrollUpButton>
+
+                          <Select.Viewport className="p-2">
+                            <Select.Group className="flex flex-col text-white gap-1">
+                              <Select.Label className="text-zinc-500 mb-2">Games</Select.Label>
+
+                              { games.map(game => {
+                                return (
+                                  <Select.Item key={game.id} value={game.id} className="text-white flex flex-row items-center gap-2 hover:cursor-pointer" >
+                                  <Select.ItemIndicator className="SelectItemIndicator">
+                                    <Check  weight="bold" />
+                                  </Select.ItemIndicator>
+                                  <Select.ItemText>{game.title}</Select.ItemText>
+                              </Select.Item>
+                                )
+                              })}
+                              
+                            </Select.Group>
+
+                          </Select.Viewport>
+                          <Select.ScrollDownButton className="flex items-center justify-center text-white">
+                            <CaretDown />
+                          </Select.ScrollDownButton>
+                        </Select.Content>
+                      </Select.Portal>
+                    </Select.Root>
                   </div>
 
                   <div className="flex flex-col gap-2">

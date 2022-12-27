@@ -1,4 +1,5 @@
 import { GameController } from "phosphor-react";
+import { AdBannerModal } from "./AdBannerModal";
 
 interface adProps{
   id: string,
@@ -10,9 +11,9 @@ interface adProps{
   hourEnd: string
 }
 
-export function AdBanner({ name, yearsPlaying, weekDays, useVoiceChannel, hourStart, hourEnd }: adProps){
+export function AdBanner({ id, name, yearsPlaying, weekDays, useVoiceChannel, hourStart, hourEnd }: adProps){
   return(
-    <div className="w-full flex flex-col gap-4 rounded-lg bg-[#2A2634] p-5">
+    <div className="w-full flex flex-col gap-4 rounded-lg bg-[#2A2634] p-5 keen-slider__slide">
       <div className="flex flex-col gap-4 ">
 
         <div className=" flex flex-col ">
@@ -27,7 +28,7 @@ export function AdBanner({ name, yearsPlaying, weekDays, useVoiceChannel, hourSt
 
         <div className=" flex flex-col">
           <span className="text-zinc-500 font-normal text-sm">Disponibilidade</span>
-          <strong className="font-bold text-white">{String(weekDays.length)} dias º {hourStart} - {hourEnd}</strong>
+          <strong className="font-bold text-white">{String(weekDays.length)} dias &#x2022; {hourStart} - {hourEnd}</strong>
         </div>
 
         <div className=" flex flex-col">
@@ -39,13 +40,8 @@ export function AdBanner({ name, yearsPlaying, weekDays, useVoiceChannel, hourSt
             : <strong className="font-bold text-red-500">Não</strong>
           }
         </div>
-
       </div>
-
-      <button className="w-full h-12 rounded-md flex flex-row items-center justify-center bg-violet-500 text-white font-semibold gap-2">
-        <GameController />
-        Conectar
-      </button>
+      <AdBannerModal id={id}/>
       
   </div>
   )

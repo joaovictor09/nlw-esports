@@ -15,3 +15,11 @@
   - [OK] Mostrar um Modal quando anúncio for criado
   - [ ] Validação dos campos - React Hook Forms(Schema validation)
   - [OK] Não permitir enviar mais de 1 de uma única vez
+
+## Updates na Página de anúncios
+  - [OK] Modal para conectar
+  - [ ] Direcionar para o discord
+
+## Updates na Página de Erro
+  - [ ] Mostrar qual foi o erro
+  - [ ] Criar o visual - atualmente está sem estilização

@@ -3,8 +3,9 @@ import * as Checkbox from "@radix-ui/react-checkbox"
 import * as ToggleGroup from "@radix-ui/react-toggle-group"
 import * as Select from "@radix-ui/react-select"
 
-import { CaretDown, CaretUp, Check, CircleNotch, GameController } from "phosphor-react"
 import { useEffect, useState, FormEvent } from "react";
+import { useForm } from "react-hook-form";
+import { CaretDown, CaretUp, Check, CircleNotch, GameController } from "phosphor-react"
 
 import { Input } from "../components/Form/Input"
 import { Game } from "../pages/Home";
@@ -22,13 +23,17 @@ interface props{
 export function CreateAdModal({ children, selectedGameProp }: props){
 
   const [games, setGames] = useState<Game[]>([]);
+  
   const [weekDays, setWeekDays] = useState<string[]>([])
   const [useVoiceChannel, setUseVoiceChannel] = useState(false)
   const [selectedGame, setSelectedGame] = useState(selectedGameProp)
   const [loading, setLoading] = useState(false);
+
   const [modalOpen, setModalOpen] = useState(false);
   const [popUpModal, setPopUpModal] = useState(false);
   const [formError, setFormError] = useState(false);
+
+  const { register, handleSubmit, watch, formState: { errors } } = useForm();
 
   useEffect(() => {
     axios("http://localhost:3333/games").then(response => {

@@ -71,7 +71,6 @@ export function GameAds(){
               
               {ads.map(ad => {
                 return(
-                  <div className="keen-slider__slide" key={ad.id}>
                     <AdBanner 
                       key={ad.id}
                       id={ ad.id }
@@ -82,7 +81,6 @@ export function GameAds(){
                       weekDays={ad.weekDays}
                       yearsPlaying={ad.yearsPlaying}
                     />
-                  </div>
                 )
               })}
             </div>

@@ -9,6 +9,7 @@ import logoImg from "../assets/logo-nlw-esports.svg";
 import { AdBanner } from "../components/AdBanner";
 import { CreateAdModal } from "../components/CreateAdModal";
 import { CreateAdBanner } from "../components/CreateAdBanner";
+import { CaretLeft, CaretRight } from "phosphor-react";
 
 interface ads {
   id: string,
@@ -43,10 +44,19 @@ export function GameAds(){
 
   },[])
 
-  const [ref] = useKeenSlider<HTMLDivElement>({
+  const [currentSlide, setCurrentSlide] = useState(0)
+  const [loaded, setLoaded] = useState(false)
+  const [sliderRef, instanceRef] = useKeenSlider<HTMLDivElement>({
+    initial: 0,
+    slideChanged(slider) {
+      setCurrentSlide(slider.track.details.rel)
+    },
     slides: {
-      perView: 5,
-      spacing: 15,
+       perView: 5,
+       spacing: 15
+    },
+    created() {
+      setLoaded(true)
     },
   })
 
@@ -67,23 +77,53 @@ export function GameAds(){
         {
         !isLoading
         ? (
-            <div ref={ref} className="w-full keen-slider mt-10">
-              
-              {ads.map(ad => {
-                return(
-                    <AdBanner 
-                      key={ad.id}
-                      id={ ad.id }
-                      name={ad.name}
-                      hourEnd={ad.hourEnd}
-                      hourStart={ad.hourStart}
-                      useVoiceChannel={ad.useVoiceChannel}
-                      weekDays={ad.weekDays}
-                      yearsPlaying={ad.yearsPlaying}
-                    />
-                )
-              })}
+          <>
+            <div className="mt-10 relative w-full flex items-center">
+              <div ref={sliderRef} className="keen-slider">
+                {ads.map(ad => {
+                  return(
+                      <AdBanner 
+                        key={ad.id}
+                        id={ ad.id }
+                        name={ad.name}
+                        hourEnd={ad.hourEnd}
+                        hourStart={ad.hourStart}
+                        useVoiceChannel={ad.useVoiceChannel}
+                        weekDays={ad.weekDays}
+                        yearsPlaying={ad.yearsPlaying}
+                      />
+                  )
+                })}
+              </div>
+
+              {loaded && instanceRef.current && (
+                <>
+                  <button
+                    className="absolute -left-12 text-zinc-400 disabled:text-zinc-700"
+                    onClick={(e: any) =>
+                      e.stopPropagation() || instanceRef.current?.prev()
+                    }
+                    disabled={currentSlide === 0}
+                  >
+                    <CaretLeft size={48}/>
+                  </button>
+
+                  <button
+                    className="absolute -right-12 text-zinc-400 disabled:text-zinc-700"
+                    onClick={(e: any) =>
+                      e.stopPropagation() || instanceRef.current?.next()
+                    }
+                    disabled={
+                      currentSlide ===
+                      instanceRef.current.track.details.slides.length - 5
+                    }
+                  >
+                    <CaretRight size={48}/>
+                  </button>
+                </>
+              )}
             </div>
+          </>
           )
         : 'Carregando'
         }

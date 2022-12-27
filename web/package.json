@@ -15,7 +15,7 @@
     "@radix-ui/react-toggle-group": "^1.0.1",
     "axios": "^1.2.1",
     "flowbite": "^1.5.5",
-    "keen-slider": "^6.7.0",
+    "keen-slider": "^6.8.5",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",
     "phosphor-react": "^1.4.1",

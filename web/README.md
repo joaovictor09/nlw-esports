@@ -3,7 +3,7 @@
 ## Updates Gerais
   - [OK] Página de anúncios
   - [ ] Responsividade
-  - [+/-] Criar o carroussel - Keen Slider - Erro ao iniciar pela primeira vez
+  - [OK] Criar o carroussel - Keen Slider - Erro ao iniciar pela primeira vez
   - [ ] Autenticação com Discord
   - [ ] Mostrar algo quando não encontrar nenhum jogo
   - [ ] Web-Socket

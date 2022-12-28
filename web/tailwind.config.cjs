@@ -3,6 +3,7 @@ module.exports = {
   content: [
     "./src/**/*.tsx",
     "./index.html",
+    './node_modules/tw-elements/dist/js/**/*.js'
   ],
   theme: {
     fontFamily: {
@@ -20,6 +21,6 @@ module.exports = {
     },
   },
   plugins: [
-    require('flowbite/plugin')
+    require('tw-elements/dist/plugin')
   ],
 }

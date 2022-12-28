@@ -76,7 +76,7 @@ export function Home() {
   }, [])
 
   return (
-    <div className={"max-w-[1344px] w-full mx-auto flex flex-col items-center mt-20"}>
+    <div className={"max-w-[1344px] w-full mx-auto flex flex-col items-center mt-10"}>
 
 
       <img src={logoImg} alt="" />

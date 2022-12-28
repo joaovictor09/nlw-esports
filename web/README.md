@@ -10,10 +10,10 @@
 
   - [ ] Puxar jogos da twitch
 
-## Updates no Formulário
+## [OK] Updates no Formulário
   - [OK] Usar o Select do Radix no CreateAdModal
   - [OK] Mostrar um Modal quando anúncio for criado
-  - [ ] Validação dos campos - React Hook Forms(Schema validation)
+  - [OK] Validação dos campos - React Hook Forms(Schema validation)
   - [OK] Não permitir enviar mais de 1 de uma única vez
 
 ## Updates na Página de anúncios

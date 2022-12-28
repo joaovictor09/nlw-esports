@@ -74,8 +74,12 @@ export function GameAds(){
            <span className="bg-nlw-gradient text-transparent bg-clip-text">{gameTitle}</span> está aqui.
         </h1>
 
+        <CreateAdModal selectedGameProp={id}>
+          <CreateAdBanner />
+        </CreateAdModal>
+
         {
-        !isLoading
+        !isLoading && ads.length >= 1
         ? (
           <>
             <div className="mt-10 relative w-full flex items-center">
@@ -123,14 +127,15 @@ export function GameAds(){
                 </>
               )}
             </div>
+            <CreateAdModal selectedGameProp={id}>
+              <CreateAdBanner />
+            </CreateAdModal>
           </>
           )
         : 'Carregando'
         }
         
-        <CreateAdModal selectedGameProp={id}>
-          <CreateAdBanner />
-        </CreateAdModal>
+
     
     </div>
 

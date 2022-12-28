@@ -20,6 +20,10 @@
   - [OK] Modal para conectar
   - [ ] Direcionar para o discord
 
+## Updates na Página de anúncios
+  - [ ] Mostrar algo quando não tiver nenhum anúncio
+  - [ ] Verificar se jogo existe
+
 ## Updates na Página de Erro
   - [ ] Mostrar qual foi o erro
-  - [ ] Criar o visual - atualmente está sem estilização
+  - [OK] Criar o visual - atualmente está sem estilização

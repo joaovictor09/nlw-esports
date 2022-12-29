@@ -28,22 +28,6 @@ export function GameAds(){
   const [gameTitle, setGameTitle] = useState("")
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(()=>{
-
-    async function fetchAdsAndGameTitle(){
-      await axios(`http://localhost:3333/games/${id}/ads`).then(response => {
-        setAds(response.data);
-       }).then(()=> setIsLoading(false))
-
-       await axios(`http://localhost:3333/game/${id}`).then(response => {
-        setGameTitle(response.data.title);
-       })
-    }
-
-    fetchAdsAndGameTitle();
-
-  },[])
-
   const [currentSlide, setCurrentSlide] = useState(0)
   const [loaded, setLoaded] = useState(false)
   const [sliderRef, instanceRef] = useKeenSlider<HTMLDivElement>({
@@ -60,6 +44,19 @@ export function GameAds(){
     },
   })
 
+  useEffect(()=>{
+    async function fetchAdsAndGameTitle(){
+      await axios(`http://localhost:3333/games/${id}/ads`).then(response => {
+        setAds(response.data);
+       }).then(()=> setIsLoading(false))
+
+       await axios(`http://localhost:3333/game/${id}`).then(response => {
+        setGameTitle(response.data.title);
+       })
+    }
+    fetchAdsAndGameTitle();
+  },[])
+
   return(
     <div className="max-w-[1344px] w-full mx-auto flex flex-col items-center mt-20 mb-5">
 
@@ -73,10 +70,6 @@ export function GameAds(){
            de&nbsp;
            <span className="bg-nlw-gradient text-transparent bg-clip-text">{gameTitle}</span> está aqui.
         </h1>
-
-        <CreateAdModal selectedGameProp={id}>
-          <CreateAdBanner />
-        </CreateAdModal>
 
         {
         !isLoading && ads.length >= 1

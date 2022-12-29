@@ -1,7 +1,7 @@
 import { useRouteError, Link, isRouteErrorResponse  } from "react-router-dom";
 import logoImg from "../assets/logo-nlw-esports.svg";
 
-export default function ErrorPage() {
+export function ErrorPage() {
   const error  = useRouteError();
   
   if (isRouteErrorResponse(error)){
@@ -29,5 +29,9 @@ export default function ErrorPage() {
         </div>
       </div>
     );
+  } else{
+    return(
+      <div></div>
+    )
   }
 }

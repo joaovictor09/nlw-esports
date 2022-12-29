@@ -19,7 +19,7 @@ interface props{
   selectedGameProp?: string;
 }
 
-type FormData = {
+interface FormData {
   name: string;
   game: string;
   yearsPlaying: string;
@@ -30,6 +30,11 @@ type FormData = {
   useVoiceChannel: boolean;
 };
 
+function AlertSpan(message: string){
+  return(
+    <p className="text-xs text-red-500" role="alert">{message}</p>
+  )
+}
 
 export function CreateAdModal({ children, selectedGameProp }: props){
 
@@ -46,7 +51,7 @@ export function CreateAdModal({ children, selectedGameProp }: props){
   const { control, handleSubmit, reset, formState: { errors } } = useForm({
     defaultValues: {
       name: '',
-      game: '',
+      game: selectedGameProp || '',
       yearsPlaying: "",
       discord: "",
       weekDays: [],
@@ -55,6 +60,21 @@ export function CreateAdModal({ children, selectedGameProp }: props){
       useVoiceChannel: false
     }
   });
+
+  function SucessPopUp(){
+    return(
+      <PopUpModal 
+          open={popUpModal} 
+          onOpenChange={setPopUpModal}
+          title="Sucesso!"
+          buttonText="OK!"
+      >
+        <span>
+          Seu anúncio foi publicado com sucesso em nossa vitrine!
+        </span>
+      </PopUpModal>
+    )
+  }
 
 
   const handleCreateAd: SubmitHandler<FormData> = async data => {
@@ -77,7 +97,7 @@ export function CreateAdModal({ children, selectedGameProp }: props){
       setPopUpModal(true);
       setModalOpen(false);
       setLoading(false);
-      resetFormStates();
+      reset();
     } catch (err) {
       console.log(err);
       // alert("Erro ao criar o anúncio")
@@ -85,43 +105,15 @@ export function CreateAdModal({ children, selectedGameProp }: props){
     }
   };
 
-  function resetFormStates(){
-    setSelectedGame(undefined);
-  }
-
   useEffect(() => {
     axios("http://localhost:3333/games").then(response => {
       setGames(response.data);
      })
   }, [])
 
-  console.log(selectedGame);
-  
-
-  function SucessPopUp(){
-    return(
-      <PopUpModal 
-          open={popUpModal} 
-          onOpenChange={setPopUpModal}
-          title="Sucesso!"
-          buttonText="OK!"
-      >
-        <span>
-          Seu anúncio foi publicado com sucesso em nossa vitrine!
-        </span>
-      </PopUpModal>
-    )
-  }
-
-  function AlertSpan(message: string){
-    return(
-      <p className="text-xs text-red-500" role="alert">{message}</p>
-    )
-  }
-
   return(
     <>
-    <Dialog.Root open={modalOpen} onOpenChange={(open) => {setModalOpen(open); if(!open) reset()}}>
+    <Dialog.Root open={modalOpen} onOpenChange={setModalOpen}>
       { children }
       <Dialog.Portal>
             <Dialog.Overlay className="bg-black/60 inset-0 fixed">
@@ -142,7 +134,7 @@ export function CreateAdModal({ children, selectedGameProp }: props){
                         rules={{
                           required: true
                         }}
-                        render={({ field: {onChange} }) => { return(
+                        render={({ field: {onChange, value} }) => { return(
                           <Select.Root {...onChange} onValueChange={(value) => {onChange(value)}} value={selectedGame}>
                             <Select.Trigger className={`flex items-center justify-between bg-zinc-900 py-3 px-4 rounded text-sm ${selectedGame == "" ? 'text-zinc-500' : 'text-white'}`}>
                               <Select.Value placeholder="Selecione um game…"></Select.Value>
